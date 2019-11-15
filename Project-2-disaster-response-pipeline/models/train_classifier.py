@@ -15,6 +15,7 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import precision_score, recall_score, f1_score
+from tokenizer_function import Tokenizer, tokenize
 
 def load_data(database_filepath):
     '''
@@ -35,27 +36,6 @@ def load_data(database_filepath):
     return X, Y, category_names
 
 
-def tokenize(text):
-    '''
-    Tokenize and clean text
-    Input:
-        text: original message text
-    Output:
-        lemmed: Tokenized, cleaned, and lemmatized text
-    '''
-    # Normalize Text
-    text = re.sub(r"[^a-zA-Z0-9]", ' ', text.lower())
-    # Tokenize
-    words = word_tokenize(text)
-    # Remove Stopwords
-    words = [w for w in words if w not in stopwords.words('english')]
-    # Lemmatize
-    lemmatizer = WordNetLemmatizer()
-    lemmed = [lemmatizer.lemmatize(w, pos='n').strip() for w in words]
-    lemmed = [lemmatizer.lemmatize(w, pos='v').strip() for w in lemmed]
-    
-    return lemmed
-
     
 def build_model():
     '''
@@ -65,6 +45,7 @@ def build_model():
         Results of GridSearchCV
     '''
     pipeline = Pipeline([
+                        ('tokenizer', Tokenizer()),
                         ('vect', CountVectorizer(tokenizer=tokenize)),
                         ('tfidf', TfidfTransformer()),
                         ('clf', MultiOutputClassifier(RandomForestClassifier()))
