@@ -28,7 +28,7 @@ def load_model_data():
     df = pd.read_sql_table('DisasterResponse', engine)
 
     # load model
-    model = joblib.load("models/adaboost_model.pkl")
+    model = joblib.load("models/classifier.pkl")
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
