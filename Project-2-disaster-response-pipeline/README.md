@@ -1,24 +1,58 @@
-Disaster Response Pipeline Project
-Background:
+# Disaster Response Pipeline
+
+## Overview
+
+### Background:
 Following a disaster, there are a number of different problems that may arise. Different types of disaster response organizations take care of different parts of the disasters and observe messages to understand the needs of the situation. They have the least capacity to filter out messages during a large disaster, so predictive modeling can help classify different messages more efficiently.
 
-In this project, I built an ETL pipeline that cleaned messages using regex and NLTK. The text data was trained on a multioutput classifier model using random forest. The final deliverable is Flask app that classifies input messages and shows visualizations of key statistics of the dataset.
 
-The random forest classifier model scored 74% accuracy, 98% precision, 78% recall, and 87% F-1 score after tuning the parameters using GridSearchCV.
+The project used a data set from [Figure Eight](https://www.figure-eight.com/) that contained labeled disaster messages received by an aid organization. I built an ETL pipeline that cleaned messages using regex and NLTK. A multi-output Random Forrest classifier was trained using supervised learning with a natural language processing (NLP). T
 
-Files:
-process_data.py : ETL script to clean data into proper format by splitting up categories and making new columns for each as target variables.
-train_classifier.py : Script to tokenize messages from clean data and create new columns through feature engineering. The data with new features are trained with a ML pipeline and pickled.
-run.py : Main file to run Flask app that classifies messages based on the model and shows data visualizations.
-Instructions:
-Run the following commands in the project's root directory to set up your database and model.
 
-To run ETL pipeline that cleans data and stores in database python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/disaster_message_categories.db
-To run ML pipeline that trains classifier and saves python models/train_classifier.py data/disaster_message_categories.db models/model.p
-Run the following command in the app's directory to run your web app. python run.py
+An ETL pipeline was created, extracting data from csv files, cleaning and loading into an SQL database. A machine learning pipeline was created to extract the NLP features and then optimize the algorithm using grid search. A web app was then developed that extracts the initial data from the database and provides some interactive visual summaries. Users are also able to enter their own message to be classified by the algorithm.
 
-Go to http://0.0.0.0:3001/
 
-alt text
+## Technologies Used
+- Python
+  - Libraries: pandas, sklearn, sqlite3, sqlalchemy, nltk, plotly, flask, regex
+- HTML
+  - Bootstrap
 
-alt text
+## Project Details
+### Web App
+Users have the ability to enter their own message to be classified. 
+
+!['Enter Message'](readme_img/enter_msg.PNG)
+
+They will then be shown the classification results.
+
+!['Example Classification'](readme_img/msg_example.PNG)
+
+They can also see a summary of the original dataset.
+!['Message Types'](readme_img/msg_types.PNG)
+!['Related Types'](readme_img/related_types.PNG)
+!['Message Correlation'](readme_img/msg_correlation.PNG)
+
+### Machine Learning Considerations
+One of the primary considerations for this dataset is that the majority of the categories are very imbalanced. In some cases, out of 20k messages, only a few hundred messages exist under a specific classification. Because of this imbalance, I used f-score as the performance metric for evaluating the model with 'micro' averaging.
+
+Further work could be done to develop the algorithm by using anomaly detection machine learning techniques. 
+
+
+### Instructions:
+1. Run the following commands in the project's root directory to set up your database and model.
+
+    - To run ETL pipeline that cleans data and stores in database
+        `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/disaster_message_categories.db`
+    - To run ML pipeline that trains classifier and saves
+        `python models/train_classifier.py data/disaster_message_categories.db models/model.p`
+
+2. Run the following command in the app's directory to run your web app.
+    `python run.py`
+
+3. Go to http://0.0.0.0:3001/
+
+![alt text](https://github.com/kzhao682/Disaster_Response/blob/master/images/header.png)
+
+![alt text](https://github.com/kzhao682/Disaster_Response/blob/master/images/plots.png)
+
