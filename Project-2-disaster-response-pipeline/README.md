@@ -3,10 +3,12 @@
 ## Overview
 
 ### Background:
-Following a disaster, there are a number of different problems that may arise. Different types of disaster response organizations take care of different parts of the disasters and observe messages to understand the needs of the situation. They have the least capacity to filter out messages during a large disaster, so predictive modeling can help classify different messages more efficiently.
+Following a disaster, there are a number of different problems that could arise. Different types of disaster response organizations take care of different parts of the disasters and observe messages to better understand the needs of the situation. 
+
+They have the least capacity to filter out messages during a large disaster, so predictive modeling can help classify different messages more efficiently.
 
 
-The project used a data set from [Figure Eight](https://www.figure-eight.com/) that contained labeled disaster messages received by an aid organization. I built an ETL pipeline that cleaned messages using regex and NLTK. A multi-output Random Forrest classifier was trained using supervised learning with a natural language processing (NLP). T
+This project used a data set from [Figure Eight](https://www.figure-eight.com/) that contained labeled disaster messages received by an aid organization. I built an ETL pipeline that cleaned messages using regex and NLTK. A multi-output Random Forrest classifier was trained using supervised learning with a natural language processing (NLP). 
 
 
 An ETL pipeline was created, extracting data from csv files, cleaning and loading into an SQL database. A machine learning pipeline was created to extract the NLP features and then optimize the algorithm using grid search. A web app was then developed that extracts the initial data from the database and provides some interactive visual summaries. Users are also able to enter their own message to be classified by the algorithm.
@@ -20,18 +22,12 @@ An ETL pipeline was created, extracting data from csv files, cleaning and loadin
 
 ## Project Details
 ### Web App
-Users have the ability to enter their own message to be classified. 
+Users have the ability to enter their own message to be classified and see the classification results.
 
-!['Enter Message'](readme_img/enter_msg.PNG)
-
-They will then be shown the classification results.
-
-!['Example Classification'](readme_img/msg_example.PNG)
+!['Example Classification'](https://github.com/chenke1206/Data_Scientist_Portfolio/blob/master/Project-2-disaster-response-pipeline/example.png)
 
 They can also see a summary of the original dataset.
-!['Message Types'](readme_img/msg_types.PNG)
-!['Related Types'](readme_img/related_types.PNG)
-!['Message Correlation'](readme_img/msg_correlation.PNG)
+!['Summary'](https://github.com/chenke1206/Data_Scientist_Portfolio/blob/master/Project-2-disaster-response-pipeline/homepage.png)
 
 ### Machine Learning Considerations
 One of the primary considerations for this dataset is that the majority of the categories are very imbalanced. In some cases, out of 20k messages, only a few hundred messages exist under a specific classification. Because of this imbalance, I used f-score as the performance metric for evaluating the model with 'micro' averaging.
@@ -51,8 +47,3 @@ Further work could be done to develop the algorithm by using anomaly detection m
     `python run.py`
 
 3. Go to http://0.0.0.0:3001/
-
-![alt text](https://github.com/kzhao682/Disaster_Response/blob/master/images/header.png)
-
-![alt text](https://github.com/kzhao682/Disaster_Response/blob/master/images/plots.png)
-
