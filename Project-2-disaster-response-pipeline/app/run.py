@@ -25,11 +25,7 @@ def tokenize(text):
 
 app = Flask(__name__)
 
-
-global df
-global model
 # load data
-
 engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('DisasterResponse', engine)
 
@@ -148,3 +144,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
