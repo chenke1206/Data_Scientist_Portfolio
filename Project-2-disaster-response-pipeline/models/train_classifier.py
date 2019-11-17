@@ -15,7 +15,16 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import precision_score, recall_score, f1_score
-from tokenizer_function import Tokenizer, tokenize
+from nltk.stem.porter import PorterStemmer
+
+def tokenize(text):
+    text = re.sub(r"[^a-zA-Z0-9]",'', text.lower())
+    words = word_tokenize(text.lower().strip().translate(text))
+    words = [word for word in words if word not in stopwords.words('english')]
+    lemmed = [WordNetLemmatizer().lemmatize(word) for word in words]
+    lemmed = [WordNetLemmatizer().lemmatize(word, pos='v') for word in lemmed]
+    stemmed = [PorterStemmer().stem(word) for word in lemmed]
+    return stemmed
 
 def load_data(database_filepath):
     '''
@@ -45,20 +54,21 @@ def build_model():
         Results of GridSearchCV
     '''
     pipeline = Pipeline([
-                        ('tokenizer', Tokenizer()),
                         ('vect', CountVectorizer(tokenizer=tokenize)),
                         ('tfidf', TfidfTransformer()),
                         ('clf', MultiOutputClassifier(RandomForestClassifier()))
                         ])
-    return pipeline
 
-#    parameters = {'clf__estimator__n_estimators': [50, 100],
- #                 'clf__estimator__min_samples_split': [2, 3, 4],
- #                 'clf__estimator__criterion': ['entropy', 'gini']
- #                }
- #   cv = GridSearchCV(pipeline, param_grid=parameters)
+    parameters = {
+        'vec__max_df': [0.8],
+        'clf__estimator__max_depth': (25, 50, None),
+        'clf__estimator__min_samples_split': (2, 10, 25, 50, 100), 
+        'clf__estimator__n_estimators': [500]
+    }
+
+    cv = GridSearchCV(pipeline, parameters, cv=5, n_jobs=-1 ,verbose=10)
     
-  #  return cv
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
