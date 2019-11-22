@@ -10,9 +10,9 @@ Incremental Response Rate (IRR)
 Net Incremental Revenue (NIR)
 There are numerous approaches to tackle this problem. I have chosen to implement uplift models to optimize the promotional strategy. 3 different types of uplift models were implemented:
 
-Two Models Approach
-Treatment Dummy Approach
-Four Quadrant Approach
+-  Two Models Approach
+- Treatment Dummy Approach
+- Four Quadrant Approach
 
 
 ## File Description
